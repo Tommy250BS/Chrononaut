@@ -157,10 +157,10 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-brass/30 selection:text-ink">
 
-  <!-- TOP MASTHEAD (Swiss Horology / Editorial Dispatch Header) -->
+  <!--TOP MASTHEAD (Swiss Horology / Editorial Dispatch Header)-->
   <header class="w-full max-w-4xl mx-auto px-4 pt-4 pb-2 flex flex-wrap items-center justify-between gap-3">
     <div class="flex items-center gap-3">
-      <!-- Brass Pocket Chronometer Emblem -->
+      <!--Brass Pocket Chronometer Emblem-->
       <div class="w-10 h-10 rounded-full bg-brass border-2 border-ink flex items-center justify-center shadow-[2px_2px_0px_#1C1B18] shrink-0">
         <svg class="w-5 h-5 text-paper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="13" r="8" />
@@ -190,15 +190,15 @@
     </div>
   </header>
 
-  <!-- MAIN INSTRUMENT CONSOLE -->
+  <!--MAIN INSTRUMENT CONSOLE-->
   <main class="w-full max-w-4xl mx-auto px-4 py-2 flex-1 flex flex-col justify-center gap-4">
 
-    <!-- CHRONOSPHERE RAIL & FUEL CONVERSION TELEMETRY DECK -->
+    <!--CHRONOSPHERE RAIL & FUEL CONVERSION TELEMETRY DECK-->
     <section aria-label="Chronosphere Propulsion Telemetry" class="instrument-card rounded-2xl p-3.5 sm:p-4 relative">
-      <!-- Top Telemetry Row: Fuel Tank Sight-Glass + Conversion Equation + Year Odometer -->
+      <!--Top Telemetry Row: Fuel Tank Sight-Glass + Conversion Equation + Year Odometer-->
       <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-center mb-3">
 
-        <!-- Left (7 cols): Mechanical Chronal Fuel Tank & Conversion Readout -->
+        <!--Left (7 cols): Mechanical Chronal Fuel Tank & Conversion Readout-->
         <div class="md:col-span-7 bg-paper border-[1.5px] border-ink rounded-xl p-2.5 flex flex-col justify-between gap-1.5">
           <div class="flex items-center justify-between gap-2">
             <div class="flex items-center gap-1.5">
@@ -210,11 +210,11 @@
             </span>
           </div>
 
-          <!-- Brass & Glass Sight Tube -->
+          <!--Brass & Glass Sight Tube-->
           <div class="flex items-center gap-2.5">
             <div class="sight-glass h-5 flex-1 rounded-md">
               <div id="fuel-tank-bar" class="sight-liquid h-full w-0"></div>
-              <!-- Engraved tick marks across glass -->
+              <!--Engraved tick marks across glass-->
               <div class="absolute inset-0 flex justify-between px-3 pointer-events-none">
                 <span class="w-px h-2 bg-ink/40 self-end"></span>
                 <span class="w-px h-3 bg-ink/50 self-end"></span>
@@ -229,7 +229,7 @@
           </div>
         </div>
 
-        <!-- Right (5 cols): Destination Year Odometer -->
+        <!--Right (5 cols): Destination Year Odometer-->
         <div class="md:col-span-5 bg-paper border-[1.5px] border-ink rounded-xl p-2.5 flex items-center justify-between gap-3">
           <div>
             <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-inkMuted block">Origin: 2026 AD</span>
@@ -243,20 +243,19 @@
         </div>
       </div>
 
-      <!-- Bespoke Illustrated Meridian Rail & Chronosphere Capsule Canvas -->
+      <!--Bespoke Illustrated Meridian Rail & Chronosphere Capsule Canvas-->
       <div class="w-full h-28 sm:h-32 rounded-xl border-2 border-ink bg-[#EFE9DA] relative overflow-hidden">
         <canvas id="chronosphere-canvas" class="w-full h-full block"></canvas>
       </div>
 
-      <!-- 7-Jump Station Progress Strip -->
+      <!--7-Jump Station Progress Strip-->
       <div id="jump-progress-bar" class="grid grid-cols-7 gap-1 sm:gap-2 mt-3">
         <!-- Populated dynamically -->
       </div>
     </section>
 
-    <!-- ====================================================================== -->
-    <!-- SCREEN 1: EXPEDITION BRIEFING & FUEL MECHANIC EXPLANATION              -->
-    <!-- ====================================================================== -->
+    <!--SCREEN 1: EXPEDITION BRIEFING & FUEL MECHANIC EXPLANATION-->
+    
     <section id="start-screen" class="instrument-card rounded-2xl p-5 sm:p-8 animate-stamp-in">
       <div class="flex flex-wrap items-center justify-between gap-2 pb-4 mb-5 border-b-2 border-ink/15">
         <span class="era-badge-dynamic px-3 py-1 rounded-md font-mono text-xs font-bold uppercase tracking-wider">
@@ -274,7 +273,7 @@
         Your Chronosphere capsule is stationed in <strong class="text-ink">2026 AD</strong> with an empty tank. Across <strong class="text-ink">7 jumps</strong> spanning history, art, music, games, geography, inventions, and cinema, every valid answer distills into <strong class="text-ink underline decoration-brass decoration-2 underline-offset-2">Chronal Fuel</strong>:
       </p>
 
-      <!-- Clear Visual Formula Banner: Points = Fuel = Future Years -->
+      <!--Clear Visual Formula Banner: Points = Fuel = Future Years-->
       <div class="bg-paper border-2 border-ink rounded-xl p-4 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-lg bg-brass/20 border-[1.5px] border-ink flex items-center justify-center font-mono font-extrabold text-base text-ink shrink-0">
@@ -294,7 +293,7 @@
         </div>
       </div>
 
-      <!-- Rarity Fuel Grade Cards -->
+      <!--Rarity Fuel Grade Cards-->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-7">
         <div class="instrument-card-sm p-3 rounded-xl">
           <div class="flex items-center justify-between mb-1">
@@ -337,11 +336,10 @@
       </div>
     </section>
 
-    <!-- ====================================================================== -->
-    <!-- SCREEN 2: ACTIVE GAMEPLAY ROUND                                        -->
-    <!-- ====================================================================== -->
+    <!-- SCREEN 2: ACTIVE GAMEPLAY ROUND-->
+    
     <section id="game-screen" class="hidden instrument-card rounded-2xl p-5 sm:p-7">
-      <!-- Top Metadata Strip: Jump #, Era Stamp, Chrono-Freeze Switch, Escapement Clock -->
+      <!--Top Metadata Strip: Jump #, Era Stamp, Chrono-Freeze Switch, Escapement Clock-->
       <div class="flex flex-wrap items-center justify-between gap-2.5 pb-4 mb-4 border-b-2 border-ink/15">
         <div class="flex flex-wrap items-center gap-2">
           <span id="round-number-badge" class="px-2.5 py-1 rounded-md bg-ink text-paper font-mono text-xs font-bold">
@@ -353,7 +351,7 @@
         </div>
 
         <div class="flex items-center gap-2">
-          <!-- 1-Use Brass Chrono-Freeze Switch -->
+          <!--1-Use Brass Chrono-Freeze Switch-->
           <button id="chrono-freeze-btn" type="button" title="Pause escapement timer for 10s (costs 15 yrs fuel)" class="tactile-btn flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-paper hover:bg-paperDark text-ink text-xs font-mono font-bold cursor-pointer">
             <svg class="w-3.5 h-3.5 text-prussian" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
               <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/>
@@ -361,7 +359,7 @@
             <span id="freeze-btn-label">Freeze Clock (-15y)</span>
           </button>
 
-          <!-- Mechanical Escapement Countdown -->
+          <!--Mechanical Escapement Countdown-->
           <div id="timer-box" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-paper border-2 border-ink font-mono font-bold text-sm text-ink min-w-[78px] justify-center">
             <span id="timer-icon" class="w-2 h-2 rounded-full bg-verdigris"></span>
             <span id="timer-display">25.0s</span>
@@ -457,9 +455,7 @@
       </div>
     </section>
 
-    <!-- ====================================================================== -->
-    <!-- SCREEN 3: END-OF-EXPEDITION CHRONO-DISPATCH TICKET                     -->
-    <!-- ====================================================================== -->
+    <!-- SCREEN 3: END-OF-EXPEDITION CHRONO-DISPATCH TICKET-->
     <section id="summary-screen" class="hidden instrument-card rounded-2xl p-5 sm:p-7 animate-stamp-in">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-ink">
         <div>
@@ -498,7 +494,7 @@
         </div>
       </div>
 
-      <!-- Share & Replay Actions -->
+      <!--Share & Replay Actions-->
       <div class="flex flex-col sm:flex-row items-center gap-3 pt-2">
         <button id="copy-chronolog-btn" type="button" class="tactile-btn w-full sm:flex-1 py-3.5 px-5 rounded-xl bg-verdigris hover:bg-[#265E4F] text-paper font-serif font-bold text-base flex items-center justify-center gap-2 cursor-pointer">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
@@ -516,12 +512,12 @@
 
   </main>
 
-  <!-- FOOTER -->
+  <!-- FOOTER-->
   <footer class="w-full max-w-4xl mx-auto px-4 py-3 text-center text-[11px] text-inkMuted font-mono">
     CHRONONAUT INSTRUMENTATION • PRESS <kbd class="px-1.5 py-0.5 bg-paperDark border border-ink rounded text-ink font-bold">ENTER</kbd> TO LOCK IN OR ADVANCE
   </footer>
 
-  <!-- MANUAL / HOW TO PLAY MODAL -->
+  <!-- MANUAL / HOW TO PLAY MODAL-->
   <div id="how-to-modal" class="hidden fixed inset-0 z-50 bg-ink/60 backdrop-blur-[2px] flex items-center justify-center p-4">
     <div class="instrument-card w-full max-w-md rounded-2xl p-6 animate-stamp-in">
       <div class="flex items-center justify-between pb-3 mb-3 border-b-2 border-ink/15">
@@ -552,24 +548,21 @@
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATION -->
+  <!-- TOAST NOTIFICATION-->
   <div id="toast-banner" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-xl bg-ink text-paper border-2 border-brass text-xs font-mono font-bold shadow-[3px_3px_0px_#C87D28] opacity-0 pointer-events-none transition-opacity duration-200">
     Dispatch copied to clipboard!
   </div>
 
   <script>
     /**
-     * ============================================================================
      * CHRONONAUT — CURATED 7-JUMP EXPEDITION SEEDS
      * Two complete 7-jump expeditions:
      *   - Seed 0: EXPEDITION #01 (Daily)
      *   - Seed 1: PRACTICE RUN #02
-     * ============================================================================
      */
     const GAME_SEEDS = [
-      // ========================================================================
+
       // SEED 0: EXPEDITION #01 (7 Jumps)
-      // ========================================================================
       {
         id: 'EXPEDITION #01',
         rounds: [
@@ -815,9 +808,10 @@
         ]
       },
 
-      // ========================================================================
+      
       // SEED 1: PRACTICE RUN #02 (7 Jumps)
-      // ========================================================================
+
+      
       {
         id: 'PRACTICE RUN #02',
         rounds: [
@@ -1055,9 +1049,7 @@
     ];
 
     /**
-     * ============================================================================
      * GAME STATE & CONSTANTS
-     * ============================================================================
      */
     const BASE_YEAR = 2026;
     const ROUND_DURATION = 25.0;
@@ -1093,9 +1085,7 @@
     };
 
     /**
-     * ============================================================================
      * DOM REFERENCES
-     * ============================================================================
      */
     const el = {
       modeBadge: document.getElementById('mode-badge'),
@@ -1157,9 +1147,7 @@
     };
 
     /**
-     * ============================================================================
      * FUZZY STRING MATCHING & ALIAS RESOLUTION
-     * ============================================================================
      */
     function normalizeString(str) {
       return str
@@ -1221,9 +1209,7 @@
     }
 
     /**
-     * ============================================================================
      * VISUAL THEME & TIER STYLING HELPERS
-     * ============================================================================
      */
     function applyEraTheme(theme) {
       document.documentElement.style.setProperty('--era-accent', theme.accent);
@@ -1314,9 +1300,7 @@
     }
 
     /**
-     * ============================================================================
      * GAMEPLAY FLOW CONTROLLERS
-     * ============================================================================
      */
     function initGame(seedIdx = 0) {
       currentSeedIndex = seedIdx;
@@ -1647,14 +1631,12 @@
     }
 
     /**
-     * ============================================================================
      * BESPOKE EDITORIAL ILLUSTRATED CANVAS:
      * Vintage Brass Chronosphere Capsule on an Engraved Meridian Rail
      * - Parallax botanical/architectural hill silhouettes
      * - Engraved brass rail with year mileposts (2026 -> 2726 AD)
      * - Detailed brass-and-glass Chronosphere vehicle with rotating escapement gears,
      *   visible amber fuel sight-vial that fills & burns, and crisp comic steam puffs
-     * ============================================================================
      */
     function triggerBoilerBurn(intensity) {
       railState.burnBoost = Math.min(1.4, railState.burnBoost + 0.55 + intensity * 0.85);
@@ -2055,9 +2037,7 @@
     }
 
     /**
-     * ============================================================================
      * EVENT LISTENERS & INITIALIZATION
-     * ============================================================================
      */
     el.startGameBtn.addEventListener('click', () => startRound(0));
     el.guessForm.addEventListener('submit', handleGuessSubmit);
