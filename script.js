@@ -11,15 +11,9 @@
 
     const BASE_YEAR = 2026;
     const ROUND_DURATION = 25.0;
-    const TOTAL_JUMPS = 7;
-    const BASE_MAX_FUEL = TOTAL_JUMPS * 100;
-
     let currentSeedIndex = 0;
     function getMaxPossibleFuel() {
-      const rounds = GAME_EXPEDITIONS[currentSeedIndex]?.rounds || [];
-      const doubleIndex = rounds.findIndex(round => round.modifier?.type === 'double-or-nothing');
-      // A Double-or-Nothing round can add at most the fuel banked before it once more.
-      return doubleIndex >= 0 ? BASE_MAX_FUEL + doubleIndex * 100 : BASE_MAX_FUEL;
+      return GAME_EXPEDITIONS[currentSeedIndex]?.maxFuel || 0;
     }
     let gameState = {
       phase: 'start', // 'start' | 'playing' | 'feedback' | 'summary'
@@ -39,7 +33,7 @@
 
     // Canvas mechanical animation state
     let railState = {
-      capsuleProgress: 0,        // 0 to 1 across 700 max fuel
+      capsuleProgress: 0,        // 0 to 1 across the current expedition's computed fuel ceiling
       targetCapsuleProgress: 0,
       wheelAngle: 0,
       burnBoost: 0,              // spikes while burning newly distilled fuel
@@ -117,67 +111,14 @@
      * FUZZY STRING MATCHING & ALIAS RESOLUTION
      * ============================================================================
      */
-    function normalizeString(str) {
-      return str
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/&/g, 'and')
-        .replace(/[^a-z0-9+#\s]/g, '')
-        .replace(/\b(the|a|an)\b/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
-    }
-
-    function levenshteinDistance(a, b) {
-      if (a.length === 0) return b.length;
-      if (b.length === 0) return a.length;
-
-      const matrix = Array.from({ length: b.length + 1 }, (_, i) => [i]);
-      for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
-
-      for (let i = 1; i <= b.length; i++) {
-        for (let j = 1; j <= a.length; j++) {
-          const cost = b.charAt(i - 1) === a.charAt(j - 1) ? 0 : 1;
-          matrix[i][j] = Math.min(
-            matrix[i - 1][j] + 1,
-            matrix[i][j - 1] + 1,
-            matrix[i - 1][j - 1] + cost
-          );
-        }
-      }
-      return matrix[b.length][a.length];
-    }
-
     function findMatchingAnswer(rawInput, roundData) {
-      const cleaned = normalizeString(rawInput);
-      if (!cleaned) return null;
-
-      let bestMatch = null;
-      let bestDistance = Infinity;
-
-      for (const entry of roundData.answers) {
-        const candidates = [entry.name, ...(entry.aliases || [])];
-        for (const candidate of candidates) {
-          const normCandidate = normalizeString(candidate);
-          if (!normCandidate) continue;
-          if (cleaned === normCandidate) return entry;
-
-          if (normCandidate.length >= 5) {
-            const maxAllowedTypos = normCandidate.length >= 10 ? 2 : 1;
-            const dist = levenshteinDistance(cleaned, normCandidate);
-            if (dist <= maxAllowedTypos && dist < bestDistance) {
-              bestDistance = dist;
-              bestMatch = entry;
-            }
-          }
-        }
-      }
-      return bestMatch;
+      return QuestionEngine.matchAnswer(rawInput, roundData.answers);
     }
 
     /**
+     * ============================================================================
      * VISUAL THEME & TIER STYLING HELPERS
+     * ============================================================================
      */
     function applyEraTheme(theme = {}) {
       document.documentElement.style.setProperty('--era-accent', theme.accent || '#B85A2A');
@@ -268,7 +209,9 @@
     }
 
     /**
+     * ============================================================================
      * GAMEPLAY FLOW CONTROLLERS
+     * ============================================================================
      */
     function initGame(seedIdx = 0) {
       currentSeedIndex = seedIdx;
@@ -301,9 +244,10 @@
       railState.sparks = [];
 
       el.modeBadge.textContent = seed.id;
-      el.switchSeedTopBtn.textContent = currentSeedIndex === 0 ? 'Switch to Practice' : 'Switch to Daily #01';
+      const nextSeedIndex = (currentSeedIndex + 1) % GAME_EXPEDITIONS.length;
+      el.switchSeedTopBtn.textContent = `Switch to ${GAME_EXPEDITIONS[nextSeedIndex].id}`;
       el.fuelConversionReadout.textContent = '1 PT = +1 YR FUEL';
-      el.totalFuelDisplay.textContent = '0';
+      el.totalFuelDisplay.textContent = `0 / ${getMaxPossibleFuel()}`;
       el.yearCounterDisplay.textContent = `${BASE_YEAR} AD`;
       updateFuelSightGlass(0, false);
 
@@ -448,19 +392,25 @@
       const seed = GAME_EXPEDITIONS[currentSeedIndex];
       const roundData = seed.rounds[gameState.roundIndex];
 
-      const rarestAnswer = [...roundData.answers].sort((a, b) => b.points - a.points)[0];
-
-      // 1 Point = +1 Year of Chronal Fuel!
+      const bestAnswer = roundData.answers.reduce((best, answer) => {
+        if (!best) return answer;
+        return QuestionEngine.calculateFuel(answer, roundData) > QuestionEngine.calculateFuel(best, roundData) ? answer : best;
+      }, null);
+      const bestFuel = QuestionEngine.calculateFuel(bestAnswer, roundData);
       const modifier = roundData.modifier;
-      let fuelGained = QuestionEngine.calculateFuel(matchedEntry, roundData);
+      const previousFuel = gameState.fuelTotal;
+      const previousYear = gameState.targetYear;
+      const answerFuel = QuestionEngine.calculateFuel(matchedEntry, roundData);
+      let fuelGained = answerFuel;
+      let fuelLost = 0;
       if (modifier?.type === 'double-or-nothing') {
-        if (matchedEntry) fuelGained = gameState.fuelTotal + fuelGained;
+        if (matchedEntry) fuelGained = previousFuel + answerFuel;
         else {
+          fuelLost = previousFuel;
           gameState.fuelTotal = 0;
           fuelGained = 0;
         }
       }
-      const previousYear = gameState.targetYear;
       const tier = matchedEntry ? matchedEntry.tier : 'Empty';
 
       gameState.fuelTotal = Math.max(0, gameState.fuelTotal + fuelGained);
@@ -470,8 +420,12 @@
       // Update sight-glass & trigger mechanical boiler burn animation
       updateFuelSightGlass(gameState.fuelTotal, fuelGained > 0);
       if (fuelGained > 0) {
-        el.fuelConversionReadout.textContent = `BURNING +${fuelGained} PTS → +${fuelGained} YRS FUEL!`;
+        el.fuelConversionReadout.textContent = modifier?.type === 'double-or-nothing'
+          ? `DOUBLE OR NOTHING: +${fuelGained} YRS FUEL!`
+          : `BURNING +${fuelGained} PTS → +${fuelGained} YRS FUEL!`;
         triggerBoilerBurn(fuelGained / 100);
+      } else if (fuelLost > 0) {
+        el.fuelConversionReadout.textContent = `DOUBLE OR NOTHING: -${fuelLost} YRS FUEL!`;
       } else {
         el.fuelConversionReadout.textContent = '0 PTS → 0 YRS FUEL (COASTING)';
       }
@@ -482,7 +436,10 @@
         userAnswer: matchedEntry ? matchedEntry.name : `(${statusReason})`,
         tier,
         fuelGained,
-        rarestAnswer
+        answerFuel,
+        fuelLost,
+        bestAnswer,
+        bestFuel
       });
 
       renderProgressPills();
@@ -497,7 +454,9 @@
         el.resultTierBadge.textContent = `${tier.toUpperCase()} FUEL`;
         el.resultYearTag.textContent = matchedEntry.year;
         el.resultAnswerTitle.textContent = matchedEntry.name;
-        el.resultPointsGained.textContent = `+${fuelGained} PTS → +${fuelGained} YRS`;
+        el.resultPointsGained.textContent = modifier?.type === 'double-or-nothing'
+          ? `BANK DOUBLED → +${fuelGained} YRS`
+          : `+${fuelGained} PTS → +${fuelGained} YRS`;
         el.resultPointsGained.className = 'font-mono font-extrabold text-base sm:text-lg text-verdigris';
         el.resultYearShift.textContent = `${previousYear} AD → ${gameState.targetYear} AD`;
         el.resultFactText.textContent = `${matchedEntry.fact}${modifier ? ` Wildcard: ${modifier.description}` : ''}`;
@@ -510,10 +469,10 @@
         el.resultYearShift.textContent = modifier?.type === 'double-or-nothing'
           ? `${previousYear} AD → ${gameState.targetYear} AD (fuel forfeited)`
           : `Held at ${previousYear} AD`;
-        el.resultFactText.textContent = `A valid entry here was "${roundData.answers[0].name}" (+${roundData.answers[0].points} yrs fuel), or "${rarestAnswer.name}" (+${rarestAnswer.points} yrs fuel).${modifier?.type === 'double-or-nothing' ? ' Double or Nothing failed: accumulated fuel was lost.' : ''}`;
+        el.resultFactText.textContent = `The highest-fuel valid entry was "${bestAnswer.name}" (+${bestFuel} fuel).${modifier?.type === 'double-or-nothing' ? ` Double or Nothing failed: ${fuelLost} accumulated fuel was forfeited.` : ''}`;
       }
 
-      el.resultParadoxExample.textContent = `${rarestAnswer.name} (+${rarestAnswer.points} yrs)`;
+      el.resultParadoxExample.textContent = `${bestAnswer.name} (+${bestFuel} fuel)`;
       el.resultPoolCount.textContent = `${roundData.answers.length} valid entries in archive`;
 
       const isLastRound = gameState.roundIndex >= seed.rounds.length - 1;
@@ -575,8 +534,8 @@
             </div>
           </div>
           <div class="flex sm:flex-col items-center sm:items-end justify-between gap-1 shrink-0 border-t sm:border-t-0 border-ink/15 pt-1.5 sm:pt-0">
-            <span class="font-mono font-bold text-xs sm:text-sm text-verdigris">+${item.fuelGained} pts → +${item.fuelGained} yrs</span>
-            <span class="text-[11px] text-plum font-mono font-semibold">Max: ${item.rarestAnswer.name} (+${item.rarestAnswer.points}y)</span>
+            <span class="font-mono font-bold text-xs sm:text-sm text-verdigris">${item.fuelLost ? `−${item.fuelLost} yrs forfeited` : `+${item.fuelGained} yrs fuel`}</span>
+            <span class="text-[11px] text-plum font-mono font-semibold">Max: ${item.bestAnswer.name} (+${item.bestFuel}y)</span>
           </div>
         `;
         el.summaryBreakdownList.appendChild(row);
@@ -590,7 +549,7 @@
         `⏱️ CHRONONAUT — ${seed.id}`,
         `🚂 2026 AD → ${gameState.targetYear} AD (+${gameState.fuelTotal}/${getMaxPossibleFuel()} yrs fuel)`,
         `${emojiBar}`,
-        ...gameState.history.map((h, i) => `${getTierStyling(h.tier).emoji} J${i + 1} ${h.era}: +${h.fuelGained}y`)
+        ...gameState.history.map((h, i) => `${getTierStyling(h.tier).emoji} J${i + 1} ${h.era}: +${h.fuelGained}y${h.fuelLost ? ` (forfeited ${h.fuelLost}y)` : ''}`)
       ];
 
       const shareText = lines.join('\n');
@@ -610,12 +569,14 @@
     }
 
     /**
+     * ============================================================================
      * BESPOKE EDITORIAL ILLUSTRATED CANVAS:
      * Vintage Brass Chronosphere Capsule on an Engraved Meridian Rail
      * - Parallax botanical/architectural hill silhouettes
-     * - Engraved brass rail with year mileposts (2026 -> 2726 AD)
+     * - Engraved brass rail with year mileposts (dynamic expedition ceiling)
      * - Detailed brass-and-glass Chronosphere vehicle with rotating escapement gears,
      *   visible amber fuel sight-vial that fills & burns, and crisp comic steam puffs
+     * ============================================================================
      */
     function triggerBoilerBurn(intensity) {
       railState.burnBoost = Math.min(1.4, railState.burnBoost + 0.55 + intensity * 0.85);
@@ -782,10 +743,10 @@
 
       if (Math.abs(gameState.fuelTotal - gameState.displayFuel) > 0.35) {
         gameState.displayFuel += (gameState.fuelTotal - gameState.displayFuel) * 0.14;
-        el.totalFuelDisplay.textContent = `${Math.round(gameState.displayFuel)}`;
+        el.totalFuelDisplay.textContent = `${Math.round(gameState.displayFuel)} / ${getMaxPossibleFuel()}`;
       } else if (gameState.displayFuel !== gameState.fuelTotal) {
         gameState.displayFuel = gameState.fuelTotal;
-        el.totalFuelDisplay.textContent = `${gameState.fuelTotal}`;
+        el.totalFuelDisplay.textContent = `${gameState.fuelTotal} / ${getMaxPossibleFuel()}`;
       }
 
       // Smoothly move capsule along meridian rail
@@ -1012,7 +973,9 @@
     }
 
     /**
+     * ============================================================================
      * EVENT LISTENERS & INITIALIZATION
+     * ============================================================================
      */
     el.startGameBtn.addEventListener('click', () => startRound(0));
     el.guessForm.addEventListener('submit', handleGuessSubmit);

@@ -1,8 +1,9 @@
 /* Chrononaut subject-matter archive. Add/edit answer pools here; gameplay rules live in question-engine.js. */
 (function (global) {
   const GAME_SEEDS = [
-
+      // ========================================================================
       // SEED 0: EXPEDITION #01 (7 Jumps)
+      // ========================================================================
       {
         id: 'EXPEDITION #01',
         rounds: [
@@ -248,8 +249,9 @@
         ]
       },
 
+      // ========================================================================
       // SEED 1: PRACTICE RUN #02 (7 Jumps)
-    
+      // ========================================================================
       {
         id: 'PRACTICE RUN #02',
         rounds: [
@@ -483,7 +485,373 @@
             ]
           }
         ]
+      },
+
+      // ========================================================================
+      // EXPANSION POOLS: independent subject domains for cross-domain expeditions
+      // ========================================================================
+      {
+        id: 'ARCHITECTURE & LANDMARKS',
+        rounds: [{
+          domain: 'Architecture', era: 'Architecture & Landmarks', constraint: 'Completed before 2000',
+          subject: 'architectural landmark',
+          prompt: 'Name an architectural landmark completed before the year 2000',
+          hint: 'Think bridges, towers, monuments, museums, and historic buildings.',
+          theme: { accent: '#8A6847', skyTop: '#EFE5D8', skyBottom: '#DDC9B1', symbol: 'pillar' },
+          answers: [
+            { name: 'Eiffel Tower', aliases: ['tour eiffel'], year: '1889', points: 15, tier: 'Common', fact: 'Built for the 1889 Exposition Universelle in Paris.' },
+            { name: 'Taj Mahal', aliases: [], year: '1653', points: 18, tier: 'Common', fact: 'Commissioned by Mughal emperor Shah Jahan as a mausoleum for Mumtaz Mahal.' },
+            { name: 'Colosseum', aliases: ['flavian amphitheatre'], year: '80 AD', points: 20, tier: 'Common', fact: 'The Flavian Amphitheatre opened in Rome under Emperor Titus.' },
+            { name: 'Statue of Liberty', aliases: ['liberty enlightening the world'], year: '1886', points: 25, tier: 'Common', fact: 'A gift from France, dedicated in New York Harbor in 1886.' },
+            { name: 'Sydney Opera House', aliases: [], year: '1973', points: 32, tier: 'Uncommon', fact: 'Designed by Jørn Utzon and opened by Queen Elizabeth II in 1973.' },
+            { name: 'Golden Gate Bridge', aliases: [], year: '1937', points: 38, tier: 'Uncommon', fact: 'The San Francisco suspension bridge opened to pedestrians in May 1937.' },
+            { name: 'Hagia Sophia', aliases: ['aya sofya'], year: '537', points: 42, tier: 'Uncommon', fact: 'Justinian I commissioned the great Byzantine church in Constantinople.' },
+            { name: 'Petra Treasury', aliases: ['al khazneh', 'the treasury'], year: '1st century AD', points: 48, tier: 'Uncommon', fact: 'The rock-cut façade is one of the best-known monuments of ancient Petra.' },
+            { name: 'Sagrada Família', aliases: ['sagrada familia'], year: '1882–present', points: 58, tier: 'Rare', fact: 'Antoni Gaudí took over the Barcelona basilica project in 1883.' },
+            { name: 'Fallingwater', aliases: ['kaufmann residence'], year: '1939', points: 68, tier: 'Rare', fact: 'Frank Lloyd Wright designed the house above a waterfall in Pennsylvania.' },
+            { name: 'Burj Al Arab', aliases: [], year: '1999', points: 78, tier: 'Rare', fact: 'The sail-shaped Dubai hotel opened in December 1999.' },
+            { name: 'Brasília Cathedral', aliases: ['cathedral of brasilia'], year: '1970', points: 90, tier: 'Paradox', fact: 'Oscar Niemeyer designed the hyperboloid cathedral, inaugurated in 1970.' }
+          ]
+        }]
+      },
+      {
+        id: 'SPACE EXPLORATION',
+        rounds: [{
+          domain: 'Science & Space', era: 'Space Exploration', constraint: 'Mission milestones', subject: 'space mission',
+          prompt: 'Name a space mission or spacecraft that reached a major milestone beyond Earth',
+          hint: 'Robotic probes, crewed missions, orbiters, and landers all count.',
+          theme: { accent: '#445B8A', skyTop: '#E3E8F2', skyBottom: '#CBD5E8', symbol: 'compass' },
+          answers: [
+            { name: 'Apollo 11', aliases: [], year: '1969', points: 15, tier: 'Common', fact: 'First crewed lunar landing, with Neil Armstrong and Buzz Aldrin on the surface.' },
+            { name: 'Sputnik 1', aliases: ['sputnik'], year: '1957', points: 18, tier: 'Common', fact: 'The Soviet satellite became the first artificial object to orbit Earth.' },
+            { name: 'Voyager 1', aliases: [], year: '1977', points: 20, tier: 'Common', fact: 'Launched in 1977, it became the most distant human-made object.' },
+            { name: 'Hubble Space Telescope', aliases: ['hubble'], year: '1990', points: 25, tier: 'Common', fact: 'Deployed from Space Shuttle Discovery in April 1990.' },
+            { name: 'Viking 1', aliases: [], year: '1976', points: 32, tier: 'Uncommon', fact: 'NASA mission achieved the first successful US landing on Mars.' },
+            { name: 'Cassini-Huygens', aliases: ['cassini'], year: '1997', points: 38, tier: 'Uncommon', fact: 'The orbiter studied Saturn; its Huygens probe landed on Titan in 2005.' },
+            { name: 'Rosetta', aliases: [], year: '2004', points: 44, tier: 'Uncommon', fact: 'ESA mission delivered Philae, the first probe to soft-land on a comet nucleus.' },
+            { name: 'New Horizons', aliases: [], year: '2006', points: 50, tier: 'Uncommon', fact: 'Made the first close flyby of Pluto in July 2015.' },
+            { name: 'Juno', aliases: [], year: '2011', points: 60, tier: 'Rare', fact: 'NASA spacecraft entered orbit around Jupiter in 2016.' },
+            { name: 'Hayabusa2', aliases: [], year: '2014', points: 72, tier: 'Rare', fact: 'Japanese mission returned samples from asteroid Ryugu to Earth.' },
+            { name: 'OSIRIS-REx', aliases: ['osiris rex'], year: '2016', points: 84, tier: 'Rare', fact: 'NASA returned a sample from asteroid Bennu in September 2023.' },
+            { name: 'BepiColombo', aliases: [], year: '2018', points: 96, tier: 'Paradox', fact: 'Joint ESA-JAXA mission launched to study Mercury.' }
+          ]
+        }]
+      },
+      {
+        id: 'SCIENTIFIC BREAKTHROUGHS',
+        rounds: [{
+          domain: 'Science', era: 'Scientific Breakthroughs', constraint: 'Named discoveries', subject: 'scientific discovery or theory',
+          prompt: 'Name a major scientific discovery, theory, or breakthrough',
+          hint: 'Physics, biology, chemistry, medicine, and computing are all in play.',
+          theme: { accent: '#39756A', skyTop: '#E1EEE9', skyBottom: '#C9E0D8', symbol: 'compass' },
+          answers: [
+            { name: 'Theory of Evolution by Natural Selection', aliases: ['natural selection', 'darwinian evolution', 'theory of evolution'], year: '1858–1859', points: 15, tier: 'Common', fact: 'Charles Darwin and Alfred Russel Wallace presented the idea in 1858; Darwin published On the Origin of Species in 1859.' },
+            { name: 'Penicillin', aliases: [], year: '1928', points: 18, tier: 'Common', fact: 'Alexander Fleming noticed its antibacterial effect in 1928.' },
+            { name: 'General Relativity', aliases: ['theory of general relativity'], year: '1915', points: 22, tier: 'Common', fact: 'Einstein presented the field equations of general relativity in 1915.' },
+            { name: 'DNA Double Helix', aliases: ['structure of dna', 'dna structure'], year: '1953', points: 28, tier: 'Common', fact: 'The double-helical structure was described by Watson and Crick, building on crucial experimental work by Rosalind Franklin and others.' },
+            { name: 'Periodic Table', aliases: ['periodic table of elements'], year: '1869', points: 34, tier: 'Uncommon', fact: 'Dmitri Mendeleev published an influential periodic arrangement of elements in 1869.' },
+            { name: 'X-rays', aliases: ['x ray', 'x rays'], year: '1895', points: 40, tier: 'Uncommon', fact: 'Wilhelm Conrad Röntgen discovered X-rays in 1895.' },
+            { name: 'Radioactivity', aliases: [], year: '1896', points: 46, tier: 'Uncommon', fact: 'Henri Becquerel discovered spontaneous radioactivity while studying uranium salts.' },
+            { name: 'CRISPR-Cas9 Gene Editing', aliases: ['crispr'], year: '2012', points: 56, tier: 'Uncommon', fact: 'Doudna, Charpentier, and colleagues demonstrated programmable genome editing in 2012.' },
+            { name: 'Higgs Boson', aliases: ['higgs particle'], year: '2012', points: 66, tier: 'Rare', fact: 'ATLAS and CMS at CERN announced a particle consistent with the Higgs boson in 2012.' },
+            { name: 'Quantum Electrodynamics', aliases: ['qed'], year: '1940s', points: 76, tier: 'Rare', fact: 'Developed by physicists including Feynman, Schwinger, and Tomonaga.' },
+            { name: 'LIGO Gravitational-Wave Detection', aliases: ['gravitational waves', 'gravitational wave detection'], year: '2015', points: 88, tier: 'Rare', fact: 'LIGO detected gravitational waves from merging black holes in September 2015.' },
+            { name: 'mRNA Vaccine Platform', aliases: ['mrna vaccines', 'mrna vaccine'], year: '2020', points: 98, tier: 'Paradox', fact: 'mRNA vaccine technology reached widespread public use during the COVID-19 pandemic.' }
+          ]
+        }]
+      },
+      {
+        id: 'WORLD LITERATURE',
+        rounds: [{
+          domain: 'Literature', era: 'World Literature', constraint: 'Published works', subject: 'literary work',
+          prompt: 'Name a landmark literary work from any country or period',
+          hint: 'Novels, epics, plays, and poetry collections are eligible.',
+          theme: { accent: '#76506E', skyTop: '#EEE5ED', skyBottom: '#DCCBDA', symbol: 'reel' },
+          answers: [
+            { name: 'The Odyssey', aliases: ['odyssey'], year: 'c. 8th century BC', points: 15, tier: 'Common', fact: 'The ancient Greek epic is traditionally attributed to Homer.' },
+            { name: 'Don Quixote', aliases: ['don quijote'], year: '1605–1615', points: 18, tier: 'Common', fact: 'Miguel de Cervantes published its two parts in 1605 and 1615.' },
+            { name: 'Hamlet', aliases: [], year: 'c. 1600', points: 22, tier: 'Common', fact: 'Shakespeare’s tragedy follows the Prince of Denmark.' },
+            { name: 'Pride and Prejudice', aliases: [], year: '1813', points: 28, tier: 'Common', fact: 'Jane Austen’s novel was first published anonymously in 1813.' },
+            { name: 'One Hundred Years of Solitude', aliases: ['100 years of solitude', 'cien años de soledad'], year: '1967', points: 36, tier: 'Uncommon', fact: 'Gabriel García Márquez’s novel helped bring global attention to magical realism.' },
+            { name: 'The Tale of Genji', aliases: ['genji monogatari'], year: 'early 11th century', points: 42, tier: 'Uncommon', fact: 'Often described as the world’s first novel; written by Murasaki Shikibu.' },
+            { name: 'Things Fall Apart', aliases: [], year: '1958', points: 48, tier: 'Uncommon', fact: 'Chinua Achebe’s novel depicts the impact of colonialism on an Igbo community.' },
+            { name: 'The Divine Comedy', aliases: ['divine comedy', 'la divina commedia'], year: '14th century', points: 54, tier: 'Uncommon', fact: 'Dante’s epic poem journeys through Inferno, Purgatorio, and Paradiso.' },
+            { name: 'The Master and Margarita', aliases: [], year: '1966–1967', points: 64, tier: 'Rare', fact: 'Mikhail Bulgakov’s novel was published posthumously in a censored version.' },
+            { name: 'The Conference of the Birds', aliases: ['mantiq al tayr'], year: '12th century', points: 74, tier: 'Rare', fact: 'Persian poet Attar’s allegorical poem follows birds seeking the Simurgh.' },
+            { name: 'The Epic of Gilgamesh', aliases: ['gilgamesh'], year: '2nd millennium BC', points: 86, tier: 'Rare', fact: 'One of the oldest surviving works of literature, preserved in cuneiform tablets.' },
+            { name: 'Popol Vuh', aliases: [], year: '16th century manuscript', points: 98, tier: 'Paradox', fact: 'A foundational K’iche’ Maya narrative preserved in a colonial-era manuscript.' }
+          ]
+        }]
+      },
+      {
+        id: 'NATURAL WORLD',
+        rounds: [{
+          domain: 'Nature & Geography', era: 'Natural World', constraint: 'Natural features', subject: 'natural feature',
+          prompt: 'Name a notable natural landmark or geographical feature',
+          hint: 'Mountains, rivers, deserts, reefs, lakes, and waterfalls count.',
+          theme: { accent: '#47745A', skyTop: '#E5EEE5', skyBottom: '#CDDFD0', symbol: 'compass' },
+          answers: [
+            { name: 'Mount Everest', aliases: ['everest'], year: 'surveyed 1856', points: 15, tier: 'Common', fact: 'The highest mountain above sea level, in the Himalayas.' },
+            { name: 'Grand Canyon', aliases: [], year: 'geological formation: millions of years', points: 18, tier: 'Common', fact: 'The Colorado River carved the immense canyon in Arizona.' },
+            { name: 'Great Barrier Reef', aliases: [], year: 'ancient reef system', points: 22, tier: 'Common', fact: 'The world’s largest coral reef system lies off Queensland, Australia.' },
+            { name: 'Sahara', aliases: ['sahara desert'], year: 'current form: thousands of years', points: 28, tier: 'Common', fact: 'The largest hot desert on Earth spans much of North Africa.' },
+            { name: 'Lake Baikal', aliases: ['baikal'], year: 'formed around 25 million years ago', points: 36, tier: 'Uncommon', fact: 'The Siberian lake is the world’s deepest freshwater lake by depth.' },
+            { name: 'Angel Falls', aliases: ['salto angel', 'kerekupai meru'], year: 'documented 1933', points: 42, tier: 'Uncommon', fact: 'Venezuela’s waterfall has the world’s highest uninterrupted drop.' },
+            { name: 'Atacama Desert', aliases: ['atacama'], year: 'hyper-arid for millions of years', points: 48, tier: 'Uncommon', fact: 'The plateau and desert region in Chile is among the driest places on Earth.' },
+            { name: 'Victoria Falls', aliases: ['mosi oa tunya'], year: 'named 1855', points: 56, tier: 'Uncommon', fact: 'The Zambezi River forms the waterfall on the Zambia–Zimbabwe border.' },
+            { name: 'Socotra Archipelago', aliases: ['socotra'], year: 'island separation: millions of years', points: 66, tier: 'Rare', fact: 'Yemen’s archipelago is renowned for endemic species such as the dragon blood tree.' },
+            { name: 'Salar de Uyuni', aliases: ['uyuni salt flat'], year: 'formed from prehistoric lakes', points: 76, tier: 'Rare', fact: 'Bolivia’s salt flat is the world’s largest salt flat.' },
+            { name: 'Danakil Depression', aliases: ['afar depression'], year: 'geological formation ongoing', points: 88, tier: 'Rare', fact: 'A volcanically active, extremely hot region in the Afar Triangle.' },
+            { name: 'Lençóis Maranhenses', aliases: ['lencois maranhenses'], year: 'national park 1981', points: 98, tier: 'Paradox', fact: 'Brazilian coastal dunes fill with seasonal freshwater lagoons.' }
+          ]
+        }]
+      },
+      {
+        id: 'CLASSICAL COMPOSERS',
+        rounds: [{
+          id: 'classical-composers-born-before-1900', domain: 'Classical Music', era: 'Classical Music', subject: 'composer', temporalNoun: 'birth year',
+          constraint: 'Born before 1900', prompt: 'Name a classical composer born before 1900',
+          hint: 'Composers from the Baroque, Classical, Romantic, and early modern eras are eligible.',
+          theme: { accent: '#8A5A44', skyTop: '#F0E5D9', skyBottom: '#DCC7B5', symbol: 'reel' },
+          sources: ['https://www.pianolibrary.org/composers/', 'https://libguides.uwrf.edu/c.php?g=554487&p=10581893'],
+          answers: [
+            { name: 'Antonio Vivaldi', aliases: ['Vivaldi'], year: '1678', points: 15, tier: 'Common', fact: 'The Venetian Baroque composer wrote hundreds of concertos, including The Four Seasons.' },
+            { name: 'Johann Sebastian Bach', aliases: ['Bach', 'J.S. Bach'], year: '1685', points: 18, tier: 'Common', fact: 'The German composer and organist became a central figure of Baroque music.' },
+            { name: 'George Frideric Handel', aliases: ['Handel', 'George Friedrich Handel'], year: '1685', points: 22, tier: 'Common', fact: 'The German-born composer later became a naturalized British subject and wrote Messiah.' },
+            { name: 'Joseph Haydn', aliases: ['Haydn', 'Franz Joseph Haydn'], year: '1732', points: 28, tier: 'Common', fact: 'Haydn helped shape the symphony and string quartet in the Classical period.' },
+            { name: 'Wolfgang Amadeus Mozart', aliases: ['Mozart', 'Wolfgang Mozart'], year: '1756', points: 36, tier: 'Uncommon', fact: 'The Salzburg-born prodigy composed more than 600 catalogued works.' },
+            { name: 'Ludwig van Beethoven', aliases: ['Beethoven'], year: '1770', points: 42, tier: 'Uncommon', fact: 'Beethoven bridged the Classical and Romantic eras and continued composing after losing his hearing.' },
+            { name: 'Franz Schubert', aliases: ['Schubert'], year: '1797', points: 48, tier: 'Uncommon', fact: 'Schubert was especially prolific in the art song, or Lied, tradition.' },
+            { name: 'Frédéric Chopin', aliases: ['Chopin', 'Frederic Chopin'], year: '1810', points: 56, tier: 'Uncommon', fact: 'The Polish-French composer was renowned for piano music, including nocturnes and études.' },
+            { name: 'Franz Liszt', aliases: ['Liszt'], year: '1811', points: 66, tier: 'Rare', fact: 'Liszt was a celebrated virtuoso pianist who helped develop the symphonic poem.' },
+            { name: 'Giuseppe Verdi', aliases: ['Verdi'], year: '1813', points: 76, tier: 'Rare', fact: 'Verdi became one of the most influential composers of Italian opera.' },
+            { name: 'Pyotr Ilyich Tchaikovsky', aliases: ['Tchaikovsky', 'P.I. Tchaikovsky'], year: '1840', points: 88, tier: 'Rare', fact: 'The Russian composer wrote ballets including Swan Lake, The Sleeping Beauty, and The Nutcracker.' },
+            { name: 'Claude Debussy', aliases: ['Debussy'], year: '1862', points: 98, tier: 'Paradox', fact: 'Debussy became a leading figure in French musical impressionism.' },
+            { name: 'Maurice Ravel', aliases: ['Ravel'], year: '1875', points: 94, tier: 'Paradox', fact: 'The French composer is known for orchestral works including Boléro.' },
+            { name: 'Igor Stravinsky', aliases: ['Stravinsky'], year: '1882', points: 100, tier: 'Paradox', fact: 'Stravinsky’s The Rite of Spring became a landmark of twentieth-century music.' }
+          ]
+        }]
+      },
+      {
+        id: 'TABLETOP GAMES',
+        rounds: [{
+          id: 'tabletop-games-first-attested-before-2000', domain: 'Tabletop Games', era: 'Tabletop Games', subject: 'tabletop game', temporalNoun: 'first-attested or publication year',
+          constraint: 'First attested before 2000', prompt: 'Name a tabletop game first attested or published before 2000',
+          hint: 'Board games and tabletop strategy games count; video games do not.',
+          theme: { accent: '#A36B32', skyTop: '#F2E8D6', skyBottom: '#E1CFAD', symbol: 'compass' },
+          sources: ['https://www.nationalarchives.gov.uk/education/resources/all-on-board/', 'https://guides.loc.gov/this-month-in-business-history/december/game-of-monopoly-patent', 'https://boardgamegeek.com/wiki/page/Games_Magazine_Hall_of_Fame'],
+          answers: [
+            { name: 'Senet', aliases: ['senat'], year: 'c. 3100 BC', points: 15, tier: 'Common', fact: 'Ancient Egyptian game boards and depictions show Senet was played thousands of years ago.' },
+            { name: 'The Royal Game of Ur', aliases: ['Royal Game of Ur', 'Game of Ur'], year: 'c. 2650 BC', points: 18, tier: 'Common', fact: 'Game boards from the Royal Cemetery of Ur are among the oldest surviving board-game sets.' },
+            { name: 'The Checkered Game of Life', aliases: ['Checkered Game of Life'], year: '1860', points: 22, tier: 'Common', fact: 'Milton Bradley published this early parlor game, a predecessor to the modern Game of Life.' },
+            { name: 'Reversi', aliases: ['Othello'], year: '1883', points: 28, tier: 'Common', fact: 'The modern game of Othello is based on Reversi, which appeared in the late nineteenth century.' },
+            { name: 'Sorry!', aliases: [], year: '1934', points: 36, tier: 'Uncommon', fact: 'The English-language version of Sorry! was patented in the United States in the 1930s.' },
+            { name: 'Monopoly', aliases: [], year: '1935', points: 42, tier: 'Uncommon', fact: 'The familiar Parker Brothers edition was patented in 1935; its history includes earlier precursors.' },
+            { name: 'Scrabble', aliases: [], year: '1948', points: 48, tier: 'Uncommon', fact: 'Alfred Mosher Butts developed the game in the 1930s; the Scrabble name and commercial release followed in 1948.' },
+            { name: 'Clue', aliases: ['Cluedo'], year: '1949', points: 56, tier: 'Uncommon', fact: 'Anthony Pratt created the murder-mystery game, first published in Britain as Cluedo.' },
+            { name: 'Candy Land', aliases: ['Candyland'], year: '1949', points: 66, tier: 'Rare', fact: 'Eleanor Abbott designed the color-based children’s game while recovering from polio.' },
+            { name: 'Risk', aliases: ['La Conquête du Monde'], year: '1957', points: 76, tier: 'Rare', fact: 'Albert Lamorisse designed the game, first released in France as La Conquête du Monde.' },
+            { name: 'Twister', aliases: [], year: '1966', points: 88, tier: 'Rare', fact: 'The physical party game became a pop-culture hit after its release by Milton Bradley.' },
+            { name: 'Connect Four', aliases: ['Connect 4'], year: '1974', points: 98, tier: 'Paradox', fact: 'Howard Wexler and Ned Strongin designed the vertical four-in-a-row game.' },
+            { name: 'Trivial Pursuit', aliases: [], year: '1981', points: 92, tier: 'Paradox', fact: 'Chris Haney and Scott Abbott created the trivia game in Montreal; it was released in 1981.' },
+            { name: 'The Settlers of Catan', aliases: ['Catan'], year: '1995', points: 100, tier: 'Paradox', fact: 'Klaus Teuber’s German strategy game helped popularize modern Eurogames internationally.' }
+          ]
+        }]
+      },
+      {
+        id: 'CHEMICAL ELEMENTS',
+        rounds: [{
+          id: 'chemical-elements-discovered-before-1900', domain: 'Chemistry', era: 'Chemistry', subject: 'chemical element', temporalNoun: 'discovery year',
+          constraint: 'Discovered before 1900', prompt: 'Name a chemical element first identified or isolated before 1900',
+          hint: 'Use the commonly cited modern discovery date; ancient-known elements are excluded from this pool.',
+          theme: { accent: '#4F7181', skyTop: '#E3EDF0', skyBottom: '#C9DCE2', symbol: 'compass' },
+          sources: ['https://periodic-table.rsc.org/about', 'https://www.periodictable.one/history/periodic-table', 'https://iupac.org/what-we-do/periodic-table-of-elements/periodic-table-archives/'],
+          answers: [
+            { name: 'Hydrogen', aliases: ['H'], year: '1766', points: 15, tier: 'Common', fact: 'Henry Cavendish recognized hydrogen as a distinct substance in the eighteenth century.' },
+            { name: 'Nitrogen', aliases: ['N'], year: '1772', points: 18, tier: 'Common', fact: 'Daniel Rutherford described nitrogen as a distinct component of air in 1772.' },
+            { name: 'Oxygen', aliases: ['O'], year: '1774', points: 22, tier: 'Common', fact: 'Joseph Priestley and Carl Wilhelm Scheele independently obtained oxygen in the 1770s.' },
+            { name: 'Chlorine', aliases: ['Cl'], year: '1774', points: 28, tier: 'Common', fact: 'Carl Wilhelm Scheele produced chlorine-containing gas in 1774; its elemental nature was established later.' },
+            { name: 'Sodium', aliases: ['Na'], year: '1807', points: 36, tier: 'Uncommon', fact: 'Humphry Davy isolated sodium by electrolysis in 1807.' },
+            { name: 'Potassium', aliases: ['K'], year: '1807', points: 42, tier: 'Uncommon', fact: 'Humphry Davy isolated potassium in 1807 using electrolysis.' },
+            { name: 'Iodine', aliases: ['I'], year: '1811', points: 48, tier: 'Uncommon', fact: 'Bernard Courtois discovered iodine in seaweed-processing residues in 1811.' },
+            { name: 'Bromine', aliases: ['Br'], year: '1826', points: 56, tier: 'Uncommon', fact: 'Antoine Jérôme Balard and Carl Jacob Löwig independently identified bromine in the 1820s.' },
+            { name: 'Helium', aliases: ['He'], year: '1868', points: 66, tier: 'Rare', fact: 'Helium was first detected in the Sun’s spectrum during the 1868 solar eclipse.' },
+            { name: 'Gallium', aliases: ['Ga'], year: '1875', points: 76, tier: 'Rare', fact: 'Paul-Émile Lecoq de Boisbaudran discovered gallium in 1875, confirming a prediction by Mendeleev.' },
+            { name: 'Germanium', aliases: ['Ge'], year: '1886', points: 88, tier: 'Rare', fact: 'Clemens Winkler discovered germanium in 1886, another element anticipated by Mendeleev.' },
+            { name: 'Argon', aliases: ['Ar'], year: '1894', points: 98, tier: 'Paradox', fact: 'Lord Rayleigh and William Ramsay identified argon in 1894 as a previously unknown component of air.' },
+            { name: 'Polonium', aliases: ['Po'], year: '1898', points: 92, tier: 'Paradox', fact: 'Marie and Pierre Curie announced the discovery of polonium in 1898.' },
+            { name: 'Radium', aliases: ['Ra'], year: '1898', points: 100, tier: 'Paradox', fact: 'Marie and Pierre Curie, with Gustave Bémont, announced radium in 1898.' }
+          ]
+        }]
+      },
+      {
+        id: 'CIVIL ENGINEERING',
+        rounds: [{
+          id: 'famous-bridges-completed-before-2000', domain: 'Civil Engineering', era: 'Civil Engineering', subject: 'bridge', temporalNoun: 'completion year',
+          constraint: 'Completed before 2000', prompt: 'Name a famous bridge completed before 2000',
+          hint: 'The year refers to completion or opening, not the start of construction.',
+          theme: { accent: '#687A70', skyTop: '#E7ECE5', skyBottom: '#D0D9CC', symbol: 'compass' },
+          sources: ['https://www.asce.org/about-civil-engineering/history-and-heritage/historic-landmarks/brooklyn-bridge/', 'https://www.goldengate.org/faq/', 'https://www.theforthbridges.org/media/rvrb40ql/forth-bridge-world-heritage-nomination-document.pdf'],
+          answers: [
+            { name: 'Ponte Vecchio', aliases: [], year: '1345', points: 15, tier: 'Common', fact: 'Florence’s medieval stone bridge is lined with shops and crosses the Arno.' },
+            { name: 'Charles Bridge', aliases: ['Karluv Most'], year: '1402', points: 18, tier: 'Common', fact: 'The Prague bridge was begun in 1357 and completed in the early fifteenth century.' },
+            { name: 'Iron Bridge', aliases: ['The Iron Bridge'], year: '1781', points: 22, tier: 'Common', fact: 'The cast-iron bridge over the River Severn became a landmark of the Industrial Revolution.' },
+            { name: 'Clifton Suspension Bridge', aliases: ['Clifton Bridge'], year: '1864', points: 28, tier: 'Common', fact: 'Isambard Kingdom Brunel designed the bridge spanning the Avon Gorge at Bristol.' },
+            { name: 'Brooklyn Bridge', aliases: [], year: '1883', points: 36, tier: 'Uncommon', fact: 'The bridge opened in 1883 after fourteen years of construction.' },
+            { name: 'Forth Bridge', aliases: ['Forth Rail Bridge'], year: '1890', points: 42, tier: 'Uncommon', fact: 'The Scottish cantilever railway bridge opened in 1890 and is a UNESCO World Heritage Site.' },
+            { name: 'Tower Bridge', aliases: [], year: '1894', points: 48, tier: 'Uncommon', fact: 'London’s combined bascule and suspension bridge opened in 1894.' },
+            { name: 'Verrazzano-Narrows Bridge', aliases: ['Verrazano-Narrows Bridge'], year: '1964', points: 56, tier: 'Uncommon', fact: 'The New York City suspension bridge opened in 1964 and connected Staten Island with Brooklyn.' },
+            { name: 'George Washington Bridge', aliases: ['GW Bridge'], year: '1931', points: 66, tier: 'Rare', fact: 'The bridge connecting New York and New Jersey opened in 1931.' },
+            { name: 'Sydney Harbour Bridge', aliases: ['Harbour Bridge'], year: '1932', points: 76, tier: 'Rare', fact: 'The steel arch bridge opened in 1932 and became a defining feature of Sydney Harbour.' },
+            { name: 'Golden Gate Bridge', aliases: [], year: '1937', points: 88, tier: 'Rare', fact: 'The San Francisco landmark opened to vehicular traffic in May 1937.' },
+            { name: 'Humber Bridge', aliases: [], year: '1981', points: 98, tier: 'Paradox', fact: 'The suspension bridge in England opened in 1981 and was then the world’s longest single-span suspension bridge.' },
+            { name: 'Akashi Kaikyo Bridge', aliases: ['Akashi-Kaikyo Bridge', 'Pearl Bridge'], year: '1998', points: 100, tier: 'Paradox', fact: 'Japan’s suspension bridge opened in 1998 and set a new record for central span length.' }
+          ]
+        }]
+      },
+      {
+        id: 'HISTORIC EXPEDITIONS',
+        rounds: [{
+          id: 'historic-expeditions-launched-before-1950', domain: 'Exploration', era: 'Exploration', subject: 'expedition', temporalNoun: 'launch year',
+          constraint: 'Launched before 1950', prompt: 'Name a historic exploration expedition launched before 1950',
+          hint: 'Use the year the voyage or expedition began, not the year it reached its destination.',
+          theme: { accent: '#557C82', skyTop: '#E2ECEB', skyBottom: '#C8DAD8', symbol: 'compass' },
+          sources: ['https://msi.nga.mil/api/publications/download?key=16694492%2FSFH00000%2FPub200bk.pdf', 'https://resources.amdigital.co.uk/aoe/map/', 'https://historiasdanavegacao.com.br/historias/'],
+          answers: [
+            { name: 'Marco Polo’s Asian Journey', aliases: ['Marco Polo expedition', 'Marco Polo journey'], year: '1271', points: 15, tier: 'Common', fact: 'Marco Polo departed Venice with his family in 1271 on the journey that took him to the court of Kublai Khan.' },
+            { name: 'Zheng He’s First Voyage', aliases: ['Zheng He first expedition'], year: '1405', points: 18, tier: 'Common', fact: 'The Ming admiral’s first major maritime expedition departed in 1405.' },
+            { name: 'Columbus’s First Voyage', aliases: ['Columbus first voyage'], year: '1492', points: 22, tier: 'Common', fact: 'Christopher Columbus’s first Atlantic voyage began in August 1492.' },
+            { name: 'Magellan–Elcano Expedition', aliases: ['Magellan expedition', 'First circumnavigation'], year: '1519', points: 28, tier: 'Common', fact: 'The expedition departed in 1519; Juan Sebastián Elcano completed the first circumnavigation in 1522.' },
+            { name: 'James Cook’s First Voyage', aliases: ['Cook first voyage', 'Endeavour voyage'], year: '1768', points: 36, tier: 'Uncommon', fact: 'Cook’s first Pacific voyage aboard HMS Endeavour began in 1768.' },
+            { name: 'Lewis and Clark Expedition', aliases: ['Corps of Discovery'], year: '1804', points: 42, tier: 'Uncommon', fact: 'The Corps of Discovery set out in 1804 to explore the newly acquired Louisiana Territory and routes west.' },
+            { name: 'Voyage of the Beagle', aliases: ['HMS Beagle voyage', 'Darwin expedition'], year: '1831', points: 48, tier: 'Uncommon', fact: 'Charles Darwin joined HMS Beagle’s second survey voyage, which departed in 1831.' },
+            { name: 'Franklin Expedition', aliases: ['Lost Franklin Expedition'], year: '1845', points: 56, tier: 'Uncommon', fact: 'John Franklin’s expedition left England in 1845 to chart the Northwest Passage.' },
+            { name: 'Fram Expedition', aliases: ['Nansen Fram expedition'], year: '1893', points: 66, tier: 'Rare', fact: 'Fridtjof Nansen’s Fram expedition began in 1893 to drift across the Arctic Ocean.' },
+            { name: 'Amundsen’s South Pole Expedition', aliases: ['Amundsen expedition'], year: '1910', points: 76, tier: 'Rare', fact: 'Roald Amundsen’s Antarctic expedition sailed in 1910 and reached the South Pole in December 1911.' },
+            { name: 'Terra Nova Expedition', aliases: ['Scott expedition'], year: '1910', points: 88, tier: 'Rare', fact: 'Robert Falcon Scott’s Terra Nova expedition began in 1910; its party reached the South Pole in January 1912.' },
+            { name: 'Endurance Expedition', aliases: ['Shackleton Endurance expedition'], year: '1914', points: 98, tier: 'Paradox', fact: 'Ernest Shackleton’s Imperial Trans-Antarctic Expedition departed in 1914; Endurance was trapped and crushed by pack ice.' },
+            { name: 'Operation Highjump', aliases: ['US Navy Antarctic Developments Program'], year: '1946', points: 92, tier: 'Paradox', fact: 'The United States Navy’s large Antarctic expedition began in 1946.' },
+            { name: 'Kon-Tiki Expedition', aliases: ['Kon Tiki'], year: '1947', points: 100, tier: 'Paradox', fact: 'Thor Heyerdahl’s balsa-raft voyage from South America to Polynesia began in 1947.' }
+          ]
+        }]
       }
     ];
+  // Editorial metadata layer: the engine consumes explicit domains and only
+  // uses temporal facts when the source's year field is unambiguous.
+  const DOMAIN_BY_PROMPT = [
+    ['History', 'ancient civilization', 'fall date'],
+    ['Visual Arts', 'painter', 'active-start year'],
+    ['Music', 'music band', 'formation year'],
+    ['Video Games', 'video game', 'release year'],
+    ['Geopolitics', 'country', 'independence year'],
+    ['Invention & Technology', 'invention', 'invention year'],
+    ['Cinema', 'feature film', 'release year'],
+    ['Mythology', 'deity', ''],
+    ['Literature', 'novel or novella', 'publication year'],
+    ['Music', 'solo music artist', 'album release year'],
+    ['Video Games', 'video game console', 'release year'],
+    ['Geography', 'landlocked country', ''],
+    ['Computing', 'programming language', 'first-appeared year'],
+    ['Cinema', 'feature film', 'release year'],
+    ['Architecture', 'architectural landmark', 'completion year'],
+    ['Space & Exploration', 'space mission or spacecraft', 'milestone year'],
+    ['Science', 'scientific discovery or theory', 'discovery year'],
+    ['Literature', 'literary work', 'publication year'],
+    ['Nature & Geography', 'natural landmark', ''],
+    ['Classical Music', 'composer', 'birth year'],
+    ['Tabletop Games', 'tabletop game', 'first-attested or publication year'],
+    ['Chemistry', 'chemical element', 'discovery year'],
+    ['Civil Engineering', 'bridge', 'completion year'],
+    ['Exploration', 'expedition', 'launch year']
+  ];
+
+  function parseExplicitYear(raw) {
+    const value = String(raw ?? '').trim();
+    if (!value || /\b(million|thousand|century|millennium|millennia|ongoing|prehistoric|surveyed|documented|named|current form|formed from|ancient reef|geological formation)\b/i.test(value)) return null;
+    if (/\//.test(value)) return null; // region-dependent or multiple-year notation
+    const match = value.match(/^(?:Formed\s+|c\.\s*)?(\d{1,4})(?:\s*[–-]\s*(\d{1,4}))?\s*(BC|BCE|AD|CE)?$/i)
+      || value.match(/^.*?\((\d{4})\)$/);
+    if (!match) return null;
+    const year = Number(match[1]);
+    if (!Number.isFinite(year) || year < 1) return null;
+    const era = String(match[3] || '').toUpperCase();
+    return era === 'BC' || era === 'BCE' ? -year : year;
+  }
+
+  let metadataIndex = 0;
+  GAME_SEEDS.forEach(collection => {
+    collection.rounds.forEach(pool => {
+      const descriptor = DOMAIN_BY_PROMPT[metadataIndex++] || ['General Knowledge', pool.subject || 'entry', ''];
+      pool.domain = pool.domain || descriptor[0];
+      pool.subject = pool.subject || descriptor[1];
+      pool.id = pool.id || pool.prompt.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 56);
+      if (!pool.temporalNoun && descriptor[2]) pool.temporalNoun = descriptor[2];
+      pool.answers.forEach(answer => {
+        const year = parseExplicitYear(answer.year);
+        if (year !== null && pool.temporalNoun) {
+          answer.metadata = { ...(answer.metadata || {}), temporalYear: year, temporalSource: answer.year };
+        }
+      });
+
+      if (pool.id === 'classical-composers-born-before-1900') {
+        const birthCountries = {
+          'Antonio Vivaldi': 'Italy', 'Johann Sebastian Bach': 'Germany', 'George Frideric Handel': 'Germany',
+          'Joseph Haydn': 'Austria', 'Wolfgang Amadeus Mozart': 'Austria', 'Ludwig van Beethoven': 'Germany',
+          'Franz Schubert': 'Austria', 'Frédéric Chopin': 'Poland', 'Franz Liszt': 'Hungary',
+          'Giuseppe Verdi': 'Italy', 'Pyotr Ilyich Tchaikovsky': 'Russia', 'Claude Debussy': 'France',
+          'Maurice Ravel': 'France', 'Igor Stravinsky': 'Russia'
+        };
+        pool.answers.forEach(answer => {
+          answer.metadata = { ...(answer.metadata || {}), origin: birthCountries[answer.name] };
+        });
+        pool.constraintVariants = [
+          { type: 'origin', origin: 'Germany', subject: 'composer', prompt: 'Name a composer born in Germany.', label: 'German-born composers' },
+          { type: 'origin', origin: 'Austria', subject: 'composer', prompt: 'Name a composer born in Austria.', label: 'Austrian-born composers' },
+          { label: 'German-born composers before 1800', subject: 'composer', prompt: 'Name a German-born composer born before 1800.', allOf: [
+            { type: 'origin', origin: 'Germany' }, { type: 'temporal', direction: 'before', year: 1800 }
+          ] }
+        ];
+      }
+      if (pool.id === 'tabletop-games-first-attested-before-2000') {
+        const origins = {
+          'Senet': 'Egypt', 'The Royal Game of Ur': 'Mesopotamia', 'The Checkered Game of Life': 'United States',
+          'Reversi': 'United Kingdom', 'Sorry!': 'United Kingdom', 'Monopoly': 'United States',
+          'Scrabble': 'United States', 'Clue': 'United Kingdom', 'Candy Land': 'United States',
+          'Risk': 'France', 'Twister': 'United States', 'Connect Four': 'United States',
+          'Trivial Pursuit': 'Canada', 'The Settlers of Catan': 'Germany'
+        };
+        pool.answers.forEach(answer => {
+          const associations = ['The Checkered Game of Life', 'Twister', 'Connect Four'].includes(answer.name) ? ['Milton Bradley'] : [];
+          answer.metadata = { ...(answer.metadata || {}), origin: origins[answer.name], associations };
+        });
+        pool.constraintVariants = [
+          { type: 'origin', origin: 'United States', subject: 'tabletop game', prompt: 'Name a tabletop game first published or developed in the United States.', label: 'US-origin games' },
+          { type: 'associative', person: 'Milton Bradley', relation: 'published by', subject: 'tabletop game', prompt: 'Name a tabletop game published by Milton Bradley.', label: 'Milton Bradley games' },
+          { label: 'US-origin or Milton Bradley games', subject: 'tabletop game', prompt: 'Name a tabletop game first published in the United States or published by Milton Bradley.', anyOf: [
+            { type: 'origin', origin: 'United States' }, { type: 'associative', person: 'Milton Bradley' }
+          ] }
+        ];
+      }
+
+      // Two balanced temporal variants are generated only when enough answers
+      // carry an explicit, parseable event year. No origin/association is guessed.
+      const dated = pool.answers.filter(answer => Number.isFinite(answer.metadata?.temporalYear));
+      const years = [...new Set(dated.map(answer => answer.metadata.temporalYear))].sort((a, b) => a - b);
+      if (years.length >= 6 && pool.temporalNoun) {
+        const low = years[Math.floor((years.length - 1) * 0.35)];
+        const high = years[Math.floor((years.length - 1) * 0.65)];
+        const generatedTemporalVariants = [
+          { type: 'temporal', direction: 'before', year: low, subject: pool.subject,
+            prompt: `Name a ${pool.subject} with a ${pool.temporalNoun} before ${Math.abs(low)}${low < 0 ? ' BC' : ''}.`,
+            label: `Earlier ${pool.temporalNoun}` },
+          { type: 'temporal', direction: 'after', year: high, subject: pool.subject,
+            prompt: `Name a ${pool.subject} with a ${pool.temporalNoun} after ${Math.abs(high)}${high < 0 ? ' BC' : ''}.`,
+            label: `Later ${pool.temporalNoun}` }
+        ];
+        pool.constraintVariants = [...(pool.constraintVariants || []), ...generatedTemporalVariants];
+      }
+    });
+  });
+
   global.ChrononautContent = Object.freeze({ seeds: GAME_SEEDS });
 })(window);

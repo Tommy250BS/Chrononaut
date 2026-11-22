@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,600&family=IBM+Plex+Mono:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css?v=20261122.3" />
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-brass/30 selection:text-ink">
 
@@ -80,7 +80,7 @@
               </div>
             </div>
             <div class="font-mono font-bold text-xs sm:text-sm text-ink whitespace-nowrap min-w-[92px] text-right">
-              <span id="total-fuel-display">0</span> / 700 YRS
+              <span id="total-fuel-display">0 / —</span> YRS
             </div>
           </div>
         </div>
@@ -119,7 +119,7 @@
           7 Temporal Jumps • Daily Rarity Expedition
         </span>
         <span class="font-mono text-xs font-semibold text-inkMuted">
-          BASE LAUNCH: 2026 AD → MAX REACH: 2726 AD
+          BASE LAUNCH: 2026 AD → DESTINATION: VARIABLE
         </span>
       </div>
 
@@ -127,7 +127,7 @@
         Answer with obscure knowledge to fuel your time machine into the future.
       </h2>
       <p class="text-inkMuted text-sm sm:text-base leading-relaxed mb-6">
-        Your Chronosphere capsule is stationed in <strong class="text-ink">2026 AD</strong> with an empty tank. Across <strong class="text-ink">7 jumps</strong> spanning history, art, music, games, geography, inventions, and cinema, every valid answer distills into <strong class="text-ink underline decoration-brass decoration-2 underline-offset-2">Chronal Fuel</strong>:
+        Your Chronosphere capsule is stationed in <strong class="text-ink">2026 AD</strong> with an empty tank. Across <strong class="text-ink">7 jumps</strong> drawn from 20 domains including history, art, music, games, geography, science, literature, and exploration, every valid answer distills into <strong class="text-ink underline decoration-brass decoration-2 underline-offset-2">Chronal Fuel</strong>:
       </p>
 
       <!-- Clear Visual Formula Banner: Points = Fuel = Future Years -->
@@ -193,10 +193,9 @@
       </div>
     </section>
 
-    
-    <!-- SCREEN 2: ACTIVE GAMEPLAY ROUND-->
-
-    
+    <!-- ====================================================================== -->
+    <!-- SCREEN 2: ACTIVE GAMEPLAY ROUND                                        -->
+    <!-- ====================================================================== -->
     <section id="game-screen" class="hidden instrument-card rounded-2xl p-5 sm:p-7">
       <!-- Top Metadata Strip: Jump #, Era Stamp, Chrono-Freeze Switch, Escapement Clock -->
       <div class="flex flex-wrap items-center justify-between gap-2.5 pb-4 mb-4 border-b-2 border-ink/15">
@@ -314,10 +313,9 @@
       </div>
     </section>
 
-
-    <!-- SCREEN 3: END-OF-EXPEDITION CHRONO-DISPATCH TICKET-->
-
-    
+    <!-- ====================================================================== -->
+    <!-- SCREEN 3: END-OF-EXPEDITION CHRONO-DISPATCH TICKET                     -->
+    <!-- ====================================================================== -->
     <section id="summary-screen" class="hidden instrument-card rounded-2xl p-5 sm:p-7 animate-stamp-in">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b-2 border-ink">
         <div>
@@ -340,7 +338,7 @@
           <div class="h-8 w-[1.5px] bg-ink/25"></div>
           <div>
             <span class="text-[10px] font-mono font-bold uppercase text-inkMuted block">Total Fuel</span>
-            <span id="summary-total-score" class="font-mono font-bold text-base sm:text-lg text-verdigris">+430 / 700y</span>
+            <span id="summary-total-score" class="font-mono font-bold text-base sm:text-lg text-verdigris">+0 / —y</span>
           </div>
         </div>
       </div>
@@ -389,7 +387,7 @@
       <ul class="space-y-3 text-sm text-ink leading-relaxed mb-5">
         <li class="flex gap-2.5">
           <span class="font-mono font-bold text-brass">01.</span>
-          <span><strong>7 Temporal Jumps:</strong> Each expedition visits 7 eras across history, art, music, video games, geography, inventions, and cinema.</span>
+          <span><strong>7 Temporal Jumps:</strong> Each expedition draws 7 unique pools from a 24-pool archive spanning 20 subject domains.</span>
         </li>
         <li class="flex gap-2.5">
           <span class="font-mono font-bold text-verdigris">02.</span>
@@ -415,8 +413,8 @@
     Dispatch copied to clipboard!
   </div>
 
-  <script src="data.js" defer></script>
-  <script src="question-engine.js" defer></script>
-  <script src="script.js" defer></script>
+  <script src="data.js?v=20261122.3" defer></script>
+  <script src="question-engine.js?v=20261122.3" defer></script>
+  <script src="script.js?v=20261122.3" defer></script>
 </body>
 </html>
