@@ -1,9 +1,8 @@
 /* Chrononaut subject-matter archive. Add/edit answer pools here; gameplay rules live in question-engine.js. */
 (function (global) {
   const GAME_SEEDS = [
-      // ========================================================================
+
       // SEED 0: EXPEDITION #01 (7 Jumps)
-      // ========================================================================
       {
         id: 'EXPEDITION #01',
         rounds: [
@@ -249,9 +248,8 @@
         ]
       },
 
-      // ========================================================================
       // SEED 1: PRACTICE RUN #02 (7 Jumps)
-      // ========================================================================
+    
       {
         id: 'PRACTICE RUN #02',
         rounds: [
