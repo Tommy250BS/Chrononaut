@@ -12,9 +12,15 @@
     const BASE_YEAR = 2026;
     const ROUND_DURATION = 25.0;
     const TOTAL_JUMPS = 7;
-    const MAX_POSSIBLE_FUEL = 700; // 7 jumps * 100 yrs fuel
+    const BASE_MAX_FUEL = TOTAL_JUMPS * 100;
 
     let currentSeedIndex = 0;
+    function getMaxPossibleFuel() {
+      const rounds = GAME_EXPEDITIONS[currentSeedIndex]?.rounds || [];
+      const doubleIndex = rounds.findIndex(round => round.modifier?.type === 'double-or-nothing');
+      // A Double-or-Nothing round can add at most the fuel banked before it once more.
+      return doubleIndex >= 0 ? BASE_MAX_FUEL + doubleIndex * 100 : BASE_MAX_FUEL;
+    }
     let gameState = {
       phase: 'start', // 'start' | 'playing' | 'feedback' | 'summary'
       roundIndex: 0,
@@ -175,9 +181,9 @@
      * VISUAL THEME & TIER STYLING HELPERS
      * ============================================================================
      */
-    function applyEraTheme(theme) {
-      document.documentElement.style.setProperty('--era-accent', theme.accent);
-      document.documentElement.style.setProperty('--era-tint', theme.skyTop);
+    function applyEraTheme(theme = {}) {
+      document.documentElement.style.setProperty('--era-accent', theme.accent || '#B85A2A');
+      document.documentElement.style.setProperty('--era-tint', theme.skyTop || '#F3E5D0');
     }
 
     function getTierStyling(tier) {
@@ -245,7 +251,7 @@
     }
 
     function updateFuelSightGlass(fuelAmount, isBurning = false) {
-      const pct = Math.min(100, Math.max(0, (fuelAmount / MAX_POSSIBLE_FUEL) * 100));
+      const pct = Math.min(100, Math.max(0, (fuelAmount / getMaxPossibleFuel()) * 100));
       el.fuelTankBar.style.width = `${pct}%`;
       if (isBurning) {
         el.fuelTankBar.classList.add('burning');
@@ -397,7 +403,7 @@
       const penalty = Math.min(15, gameState.fuelTotal);
       gameState.fuelTotal -= penalty;
       gameState.targetYear = BASE_YEAR + gameState.fuelTotal;
-      railState.targetCapsuleProgress = Math.min(1, gameState.fuelTotal / MAX_POSSIBLE_FUEL);
+      railState.targetCapsuleProgress = Math.min(1, gameState.fuelTotal / getMaxPossibleFuel());
       updateFuelSightGlass(gameState.fuelTotal, false);
 
       el.chronoFreezeBtn.disabled = true;
@@ -449,10 +455,8 @@
       const rarestAnswer = [...roundData.answers].sort((a, b) => b.points - a.points)[0];
 
       // 1 Point = +1 Year of Chronal Fuel!
-      let fuelGained = matchedEntry ? matchedEntry.points : 0;
       const modifier = roundData.modifier;
-      if (matchedEntry && modifier?.type === 'inverse-rarity') fuelGained = Math.max(15, 115 - fuelGained);
-      if (matchedEntry && roundData.rarityMode === 'mainstream') fuelGained = Math.min(60, Math.round(15 + (fuelGained - 15) * 0.53));
+      let fuelGained = QuestionEngine.calculateFuel(matchedEntry, roundData);
       if (modifier?.type === 'double-or-nothing') {
         if (matchedEntry) fuelGained = gameState.fuelTotal + fuelGained;
         else {
@@ -465,7 +469,7 @@
 
       gameState.fuelTotal = Math.max(0, gameState.fuelTotal + fuelGained);
       gameState.targetYear = BASE_YEAR + gameState.fuelTotal;
-      railState.targetCapsuleProgress = Math.min(1, gameState.fuelTotal / MAX_POSSIBLE_FUEL);
+      railState.targetCapsuleProgress = Math.min(1, gameState.fuelTotal / getMaxPossibleFuel());
 
       // Update sight-glass & trigger mechanical boiler burn animation
       updateFuelSightGlass(gameState.fuelTotal, fuelGained > 0);
@@ -507,7 +511,9 @@
         el.resultAnswerTitle.textContent = 'Boiler Stalled — No Valid Entry';
         el.resultPointsGained.textContent = '+0 PTS → +0 YRS';
         el.resultPointsGained.className = 'font-mono font-extrabold text-base sm:text-lg text-vermilion';
-        el.resultYearShift.textContent = `Held at ${previousYear} AD`;
+        el.resultYearShift.textContent = modifier?.type === 'double-or-nothing'
+          ? `${previousYear} AD → ${gameState.targetYear} AD (fuel forfeited)`
+          : `Held at ${previousYear} AD`;
         el.resultFactText.textContent = `A valid entry here was "${roundData.answers[0].name}" (+${roundData.answers[0].points} yrs fuel), or "${rarestAnswer.name}" (+${rarestAnswer.points} yrs fuel).${modifier?.type === 'double-or-nothing' ? ' Double or Nothing failed: accumulated fuel was lost.' : ''}`;
       }
 
@@ -539,13 +545,14 @@
 
       let rankTitle = 'Chronal Apprentice';
       let rankSub = 'Your capsule cleared the 21st century. Hunt deeper archival picks next run!';
-      if (gameState.fuelTotal >= 540) {
+      const fuelRatio = gameState.fuelTotal / getMaxPossibleFuel();
+      if (fuelRatio >= 0.77) {
         rankTitle = 'Grand Master of the Continuum';
         rankSub = 'Extraordinary archival recall! Your Chronosphere propelled centuries ahead.';
-      } else if (gameState.fuelTotal >= 410) {
+      } else if (fuelRatio >= 0.586) {
         rankTitle = 'Chief Chrononaut Navigator';
         rankSub = 'High-grade fuel across multiple eras carried your capsule far into the future.';
-      } else if (gameState.fuelTotal >= 280) {
+      } else if (fuelRatio >= 0.4) {
         rankTitle = 'Meridian Pilot';
         rankSub = 'Steady fuel distillation across 7 jumps with strong era instincts.';
       }
@@ -553,7 +560,7 @@
       el.finalRankTitle.textContent = rankTitle;
       el.finalRankSubtitle.textContent = rankSub;
       el.summaryFinalYear.textContent = `${gameState.targetYear} AD`;
-      el.summaryTotalScore.textContent = `+${gameState.fuelTotal} / ${MAX_POSSIBLE_FUEL}y`;
+      el.summaryTotalScore.textContent = `+${gameState.fuelTotal} / ${getMaxPossibleFuel()}y`;
 
       el.summaryBreakdownList.innerHTML = '';
       gameState.history.forEach((item, i) => {
@@ -585,7 +592,7 @@
       const emojiBar = gameState.history.map(h => getTierStyling(h.tier).emoji).join('');
       const lines = [
         `⏱️ CHRONONAUT — ${seed.id}`,
-        `🚂 2026 AD → ${gameState.targetYear} AD (+${gameState.fuelTotal}/${MAX_POSSIBLE_FUEL} yrs fuel)`,
+        `🚂 2026 AD → ${gameState.targetYear} AD (+${gameState.fuelTotal}/${getMaxPossibleFuel()} yrs fuel)`,
         `${emojiBar}`,
         ...gameState.history.map((h, i) => `${getTierStyling(h.tier).emoji} J${i + 1} ${h.era}: +${h.fuelGained}y`)
       ];
@@ -854,15 +861,11 @@
         ctx.fillRect(padX, railY - 1.5, capX - padX, 4);
       }
 
-      // Year Milepost Markers (2026 AD to 2726 AD)
-      const mileposts = [
-        { year: '2026', frac: 0 },
-        { year: '2166', frac: 0.2 },
-        { year: '2306', frac: 0.4 },
-        { year: '2446', frac: 0.6 },
-        { year: '2586', frac: 0.8 },
-        { year: '2726', frac: 1.0 }
-      ];
+      // Dynamic year mileposts match the current expedition's actual fuel ceiling.
+      const fuelCeiling = getMaxPossibleFuel();
+      const mileposts = [0, 0.2, 0.4, 0.6, 0.8, 1].map(frac => ({
+        year: String(Math.round(BASE_YEAR + fuelCeiling * frac)), frac
+      }));
 
       ctx.font = '700 10px "IBM Plex Mono", monospace';
       ctx.textAlign = 'center';
@@ -991,7 +994,7 @@
       ctx.fillRect(-19, -24, 22, 9);
       ctx.strokeRect(-19, -24, 22, 9);
 
-      const fuelFillW = Math.max(2, 20 * Math.min(1, (gameState.fuelTotal / MAX_POSSIBLE_FUEL) * 0.75 + railState.burnBoost * 0.4));
+      const fuelFillW = Math.max(2, 20 * Math.min(1, (gameState.fuelTotal / getMaxPossibleFuel()) * 0.75 + railState.burnBoost * 0.4));
       ctx.fillStyle = railState.burnBoost > 0.15 ? '#2E6F5E' : '#C87D28';
       ctx.fillRect(-18, -23, Math.min(20, fuelFillW), 7);
 
