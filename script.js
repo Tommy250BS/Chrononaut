@@ -177,9 +177,7 @@
     }
 
     /**
-     * ============================================================================
      * VISUAL THEME & TIER STYLING HELPERS
-     * ============================================================================
      */
     function applyEraTheme(theme = {}) {
       document.documentElement.style.setProperty('--era-accent', theme.accent || '#B85A2A');
@@ -270,9 +268,7 @@
     }
 
     /**
-     * ============================================================================
      * GAMEPLAY FLOW CONTROLLERS
-     * ============================================================================
      */
     function initGame(seedIdx = 0) {
       currentSeedIndex = seedIdx;
@@ -614,14 +610,12 @@
     }
 
     /**
-     * ============================================================================
      * BESPOKE EDITORIAL ILLUSTRATED CANVAS:
      * Vintage Brass Chronosphere Capsule on an Engraved Meridian Rail
      * - Parallax botanical/architectural hill silhouettes
      * - Engraved brass rail with year mileposts (2026 -> 2726 AD)
      * - Detailed brass-and-glass Chronosphere vehicle with rotating escapement gears,
      *   visible amber fuel sight-vial that fills & burns, and crisp comic steam puffs
-     * ============================================================================
      */
     function triggerBoilerBurn(intensity) {
       railState.burnBoost = Math.min(1.4, railState.burnBoost + 0.55 + intensity * 0.85);
@@ -1018,9 +1012,7 @@
     }
 
     /**
-     * ============================================================================
      * EVENT LISTENERS & INITIALIZATION
-     * ============================================================================
      */
     el.startGameBtn.addEventListener('click', () => startRound(0));
     el.guessForm.addEventListener('submit', handleGuessSubmit);
