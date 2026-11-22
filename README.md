@@ -1,4 +1,4 @@
-***Chrononaut*** is a game inspired by *Krillion* and *Wheronaut*
+***Chrononaut*** is a game inspired by *Krillion* and *Wheronaut*.
 **Status**: Work-in-progress
 
 I am currently working on the CSS (it's a nightmare, yeah, but I think I've found the right path to follow), and the question engine.
