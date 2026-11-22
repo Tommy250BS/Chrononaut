@@ -1,6 +1,10 @@
 /* Chrononaut application controller. Vanilla JS: no framework/runtime version pinning. */
 (function () {
   'use strict';
+    const answerKnowledgeReady = window.AnswerRecognition
+      ? window.AnswerRecognition.load('answer-knowledge-base.json')
+      : Promise.resolve(false);
+
     const GAME_EXPEDITIONS = QuestionEngine.createRuns(ChrononautContent.seeds, {
       runCount: ChrononautContent.seeds.length,
       jumpsPerRun: 7,
@@ -112,6 +116,7 @@
      * ============================================================================
      */
     function findMatchingAnswer(rawInput, roundData) {
+      if (window.AnswerRecognition) return window.AnswerRecognition.match(rawInput, roundData);
       return QuestionEngine.matchAnswer(rawInput, roundData.answers);
     }
 
@@ -977,7 +982,13 @@
      * EVENT LISTENERS & INITIALIZATION
      * ============================================================================
      */
-    el.startGameBtn.addEventListener('click', () => startRound(0));
+    el.startGameBtn.addEventListener('click', async () => {
+      showToast('Loading the answer archive…');
+      await answerKnowledgeReady;
+      const count = window.AnswerRecognition?.stats.entities || 0;
+      showToast(count ? `Answer archive ready · ${count.toLocaleString()} entities` : 'Curated answer archive ready');
+      startRound(0);
+    });
     el.guessForm.addEventListener('submit', handleGuessSubmit);
     el.guessInput.addEventListener('input', () => {
       el.inputFeedbackMsg.classList.add('hidden');
@@ -992,7 +1003,8 @@
     });
     el.nextRoundBtn.addEventListener('click', advanceFromFeedback);
     el.copyChronologBtn.addEventListener('click', copyChronoLog);
-    el.playPracticeBtn.addEventListener('click', () => {
+    el.playPracticeBtn.addEventListener('click', async () => {
+      await answerKnowledgeReady;
       const nextSeed = (currentSeedIndex + 1) % GAME_EXPEDITIONS.length;
       initGame(nextSeed);
       startRound(0);

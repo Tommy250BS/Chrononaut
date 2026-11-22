@@ -268,6 +268,7 @@
       ? chooseConstraint(question, question.answers, random, options.minAnswersForConstraint) : null;
     if (constraint) {
       question.answers = constraint.answers;
+      question.activeConstraint = constraint.variant;
       question.prompt = constraintPrompt(constraint.variant);
       question.constraint = constraint.variant.label || constraint.variant.type || 'Combined constraint';
       question.constraintType = Array.isArray(constraint.variant.allOf) || Array.isArray(constraint.variant.anyOf)

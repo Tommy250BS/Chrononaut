@@ -785,6 +785,50 @@
       pool.domain = pool.domain || descriptor[0];
       pool.subject = pool.subject || descriptor[1];
       pool.id = pool.id || pool.prompt.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 56);
+      // External answer expansion is enabled only for categories with an explicit,
+      // machine-checkable definition. Unsupported prompts keep their curated list.
+      const promptKey = pool.prompt.toLowerCase();
+      if (promptKey.includes('ancient civilization or empire that fell before 500 ad')) {
+        pool.answerCriteria = { classesAny: ['Q48349', 'Q3024240'], date: { before: 500 }, dateProperty: 'P582' };
+      } else if (promptKey.includes('painter who was active during the 1800s')) {
+        pool.temporalNoun = null;
+        pool.answerCriteria = { classesAny: ['Q1028181'], lifePeriod: { birthBefore: 1900, deathAfter: 1800 }, dateProperties: ['P569', 'P570'] };
+      } else if (promptKey.includes('band formed before 1980')) {
+        pool.answerCriteria = { classesAny: ['Q215380'], date: { before: 1980 }, dateProperty: 'P571' };
+      } else if (promptKey.includes('video game released before the year 2000')) {
+        pool.answerCriteria = { classesAny: ['Q7889'], date: { before: 2000 }, dateProperty: 'P577' };
+      } else if (promptKey.includes('feature film directed by christopher nolan or denis villeneuve')) {
+        pool.answerCriteria = { classesAny: ['Q11424'], directorIds: ['Q25191', 'Q187484'], dateProperty: 'P577' };
+      } else if (promptKey.includes('deity from ancient greek or roman mythology')) {
+        pool.answerCriteria = { classesAny: ['Q178885'] };
+      } else if (promptKey.includes('novel or novella published during the 1800s')) {
+        pool.answerCriteria = { classesAny: ['Q8261'], date: { after: 1799, before: 1900 }, dateProperty: 'P577' };
+      } else if (promptKey.includes('video game console released between 1985 and 1999')) {
+        pool.answerCriteria = { classesAny: ['Q8076'], date: { after: 1984, before: 2000 }, dateProperty: 'P571' };
+      } else if (promptKey.includes('computer programming language')) {
+        pool.answerCriteria = { classesAny: ['Q9143'] };
+      } else if (promptKey.includes('feature film directed by alfred hitchcock')) {
+        pool.answerCriteria = { classesAny: ['Q11424'], directorIds: ['Q425'], dateProperty: 'P577' };
+      } else if (promptKey.includes('architectural landmark completed before')) {
+        pool.answerCriteria = { classesAny: ['Q811979'], date: { before: 2000 }, dateProperty: 'P571' };
+      } else if (promptKey.includes('space mission or spacecraft')) {
+        pool.temporalNoun = null;
+        pool.answerCriteria = { classesAny: ['Q2133344', 'Q40218'], dateProperty: 'P619' };
+      } else if (promptKey.includes('landmark literary work')) {
+        pool.answerCriteria = { classesAny: ['Q7725634'] };
+      } else if (promptKey.includes('natural landmark or geographical feature')) {
+        pool.answerCriteria = { classesAny: ['Q618123'] };
+      } else if (promptKey.includes('classical composer born before 1900')) {
+        pool.answerCriteria = { classesAny: ['Q36834'], date: { before: 1900 }, dateProperty: 'P569' };
+      } else if (promptKey.includes('tabletop game first attested or published before 2000')) {
+        pool.answerCriteria = { classesAny: ['Q131436'], date: { before: 2000 }, dateProperty: 'P571' };
+      } else if (promptKey.includes('chemical element first identified or isolated before 1900')) {
+        pool.answerCriteria = { classesAny: ['Q11344'], date: { before: 1900 }, dateProperty: 'P575' };
+      } else if (promptKey.includes('bridge completed before 2000')) {
+        pool.answerCriteria = { classesAny: ['Q12280'], date: { before: 2000 }, dateProperty: 'P1619' };
+      } else if (promptKey.includes('exploration expedition launched before 1950')) {
+        pool.answerCriteria = { classesAny: ['Q1371819'], date: { before: 1950 }, dateProperty: 'P580' };
+      }
       if (!pool.temporalNoun && descriptor[2]) pool.temporalNoun = descriptor[2];
       pool.answers.forEach(answer => {
         const year = parseExplicitYear(answer.year);
