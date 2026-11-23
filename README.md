@@ -10,4 +10,7 @@ I work on VS Code, so I will be updating Github only when I want to deploy the d
 
 
 **PROVISIONAL UPDATE**
+
+**Status**: Suspended
+
 I am temporarily suspending the development of Chrononaut, in favour of a slightly different game, called Euronaut, focused primarily on geography. 
